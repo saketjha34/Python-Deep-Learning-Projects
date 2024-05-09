@@ -599,3 +599,56 @@ from sklearn.metrics import classification_report
 report = classification_report(test_preds,test_data.targets , target_names = class_names)
 report
 
+"""## 8. Save and load best performing model
+
+Let's finish this section off by saving and loading in our best performing model.
+
+Recall from [notebook 01](https://www.learnpytorch.io/01_pytorch_workflow/#5-saving-and-loading-a-pytorch-model) we can save and load a PyTorch model using a combination of:
+* `torch.save` - a function to save a whole PyTorch model or a model's `state_dict()`.
+* `torch.load` - a function to load in a saved PyTorch object.
+* `torch.nn.Module.load_state_dict()` - a function to load a saved `state_dict()` into an existing model instance.
+
+You can see more of these three in the [PyTorch saving and loading models documentation](https://pytorch.org/tutorials/beginner/saving_loading_models.html).
+
+For now, let's save our `model_2`'s `state_dict()` then load it back in and evaluate it to make sure the save and load went correctly.
+"""
+
+from pathlib import Path
+
+# Create models directory (if it doesn't already exist), see: https://docs.python.org/3/library/pathlib.html#pathlib.Path.mkdir
+MODEL_PATH = Path("pytorch_saved_model")
+MODEL_PATH.mkdir(parents=True, # create parent directories if needed
+                 exist_ok=True # if models directory already exists, don't error
+)
+
+# Create model save path
+MODEL_NAME = "CNNFashionMNIST.pth"
+MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
+
+# Save the model state dict
+print(f"Saving model to: {MODEL_SAVE_PATH}")
+torch.save(obj=model.state_dict(), # only saving the state_dict() only saves the learned parameters
+           f=MODEL_SAVE_PATH)
+
+loaded_model = FashionMNISTCNN(input_shape=1,
+                                    hidden_units=4,
+                                    output_shape=10)
+
+# Load in the saved state_dict()
+loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH))
+
+# Send model to GPU
+loaded_model = loaded_model.to(device)
+
+# Evaluate loaded model
+torch.manual_seed(42)
+
+loaded_model_results = eval_model(
+    model=loaded_model,
+    test_dl=test_dl,
+
+    accuracy_fn=accuracy_score
+)
+
+loaded_model_results
+
