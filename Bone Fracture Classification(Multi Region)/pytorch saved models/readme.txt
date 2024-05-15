@@ -1,0 +1,1 @@
+for saving model look into BoneFractureClassification jyputer notebook
