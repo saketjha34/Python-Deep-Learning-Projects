@@ -83,7 +83,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contributing
 
-Contributions are welcome! Please fork the repository, create a new branch, and submit a pull request with your changes. Ensure your code follows the repository's style guidelines and includes appropriate tests.
+Contributions are welcome! If you have any improvements or new models to add, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a new Pull Request.
 
 ## License
 
