@@ -39,26 +39,32 @@ pip install -r requirements.txt
 To train the model, run:
 
 ```bash
-python models/ModelAlexNet.py --config config/train_config.yaml
-python models/ModelResNet18.py --config config/train_config.yaml
+python models/ModelAlexNet.py 
+python models/ModelResNet18.py 
 ```
 
 
-For more detailed instructions, refer to the `scripts/` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
+For more detailed instructions, refer to the `utils/utils.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
 
 ## Model Architecture
 
-The model is built using convolutional neural networks as ResNet and AlexNet Built from scratch. The architecture details are available in the `model/` directory.
+The model is built using convolutional neural networks as ResNet and AlexNet Built from scratch. The architecture details are available in the `utils/models.py` directory.
 
 ## Results
 
-The model achieves high accuracy in detecting and classifying bone fractures across multiple regions. Detailed results and performance metrics can be found in the `Jupyer Notebooks/` directory.
+| Model   | Accuracy |
+|---------|----------|
+| AlexNet | 96%      |
+| ResNet18| 97.4%    |
 
 ## References
 
-- **Deep Learning for Medical Image Analysis:** Litjens, G., et al. "A survey on deep learning in medical image analysis." Medical image analysis 42 (2017): 60-88.
-- **Convolutional Neural Networks for X-ray Image Classification:** Rajpurkar, P., et al. "CheXNet: Radiologist-level pneumonia detection on chest x-rays with deep learning." arXiv preprint arXiv:1711.05225 (2017).
-- **Transfer Learning with CNNs:** Yosinski, J., et al. "How transferable are features in deep neural networks?" Advances in neural information processing systems 27 (2014).
+- Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *Advances in Neural Information Processing Systems*, 25, 1097-1105. [PDF](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
+- He, K., Zhang, X., Ren, S., & Sun, J. (2015). Deep Residual Learning for Image Recognition. *arXiv preprint arXiv:1512.03385*. [PDF](https://arxiv.org/abs/1512.03385)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
@@ -75,4 +81,4 @@ For any questions or suggestions, please open an issue or contact me at saketjha
 ---
 
 Happy coding!
-```
+
