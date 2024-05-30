@@ -1,6 +1,4 @@
 
-
-```markdown
 # Bone Fracture Classification (Multi-Region)
 
 This repository contains a deep learning project focused on the classification of bone fractures from medical images. The model is designed to identify and classify fractures across multiple regions of interest in X-ray images.
@@ -41,14 +39,10 @@ pip install -r requirements.txt
 To train the model, run:
 
 ```bash
-python train.py --config config/train_config.yaml
+python models/ModelAlexNet.py --config config/train_config.yaml
+python models/ModelResNet18.py --config config/train_config.yaml
 ```
 
-To evaluate the model, run:
-
-```bash
-python evaluate.py --config config/evaluate_config.yaml
-```
 
 For more detailed instructions, refer to the `scripts/` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
 
@@ -58,7 +52,7 @@ The model is built using convolutional neural networks as ResNet and AlexNet Bui
 
 ## Results
 
-The model achieves high accuracy in detecting and classifying bone fractures across multiple regions. Detailed results and performance metrics can be found in the `results/` directory.
+The model achieves high accuracy in detecting and classifying bone fractures across multiple regions. Detailed results and performance metrics can be found in the `Jupyer Notebooks/` directory.
 
 ## References
 
