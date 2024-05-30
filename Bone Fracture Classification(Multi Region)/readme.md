@@ -54,7 +54,7 @@ For more detailed instructions, refer to the `scripts/` directory, which contain
 
 ## Model Architecture
 
-The model is built using convolutional neural networks (CNNs) and leverages transfer learning from pre-trained networks such as ResNet and VGGNet. The architecture details are available in the `model/` directory.
+The model is built using convolutional neural networks as ResNet and AlexNet Built from scratch. The architecture details are available in the `model/` directory.
 
 ## Results
 
