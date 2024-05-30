@@ -22,7 +22,7 @@ Bone fractures are a common injury and accurate detection is crucial for effecti
 
 ## Dataset
 
-The dataset used for training and evaluation includes X-ray images with labeled regions indicating the presence of fractures. Details on how to obtain and preprocess the dataset can be found in the `data/` directory.
+The dataset used for training and evaluation includes X-ray images with labeled regions indicating the presence of fractures. Details on how to obtain and preprocess the dataset can be found in the `dataset/` directory.
 
 ## Installation
 
@@ -43,12 +43,27 @@ python models/ModelAlexNet.py
 python models/ModelResNet18.py 
 ```
 
+To view model performances and benchmarks check out:
+```bash
+python Jupyter Notebooks/BoneXRayFractureClassificationAlexNet.ipynb
+python Jupyter Notebooks/BoneXRayFractureClassificationResNet18.ipynb
+```
 
 For more detailed instructions, refer to the `utils/utils.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
 
 ## Model Architecture
 
-The model is built using convolutional neural networks as ResNet and AlexNet Built from scratch. The architecture details are available in the `utils/models.py` directory.
+The model is built from scratch using convolutional neural networks like ResNet18 and AlexNet. The architecture details are available in the `utils/models.py` directory.
+
+### AlexNet
+
+AlexNet is a convolutional neural network that is 8 layers deep. It was designed by Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton and won the ImageNet Large Scale Visual Recognition Challenge (ILSVRC) in 2012. AlexNet significantly outperformed previous models and was the first to use ReLU activations and dropout layers to improve performance.
+
+For more details, refer to the original paper: [ImageNet Classification with Deep Convolutional Neural Networks](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf).
+
+### ResNet18
+
+ResNet18 is a variant of the ResNet model, which introduced the concept of residual learning. This model has 18 layers and is part of the family of Residual Networks (ResNets) that won the ImageNet competition in 2015. The key innovation in ResNet is the use of skip connections, or shortcuts, to jump over some layers.
 
 ## Results
 
