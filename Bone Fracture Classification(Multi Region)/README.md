@@ -6,11 +6,13 @@ This repository contains a deep learning project focused on the classification o
 ## Table of Contents
 
 - [Introduction](#introduction)
+- [Project Structure](#project_structure)
 - [Dataset](#dataset)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Model Architecture](#model-architecture)
 - [Results](#results)
+- [Deployment](#deployment)
 - [References](#references)
 - [Contributing](#contributing)
 - [License](#license)
@@ -19,6 +21,31 @@ This repository contains a deep learning project focused on the classification o
 ## Introduction
 
 Bone fractures are a common injury and accurate detection is crucial for effective treatment. This project utilizes deep learning techniques to automate the detection and classification of bone fractures in X-ray images, improving diagnostic accuracy and efficiency.
+
+## Project Structure
+
+```
+.
+├── dataset
+│   ├── train
+│   ├── test
+│   ├── val
+├── models
+│   ├── ModelAlexNet.py
+│   ├── ModelResNet18.py
+├── jupyter notebooks
+│   ├── BoneXRayFractureClassificationAlexNet.ipynb
+│   ├── BoneXRayFractureClassificationResNet18.ipynb
+├── utils
+│   ├── utils.py
+│   ├── models.py
+├── pytorch saved models
+│   ├── BoneXRayFractureClassificationAlexNet.pth
+│   ├── BoneXRayFractureClassificationResNet18.pth
+├── README.md
+└── requirements.txt
+```
+
 
 ## Dataset
 
@@ -44,6 +71,7 @@ python models/ModelResNet18.py
 ```
 
 To view model performances and benchmarks check out:
+
 ```bash
 python Jupyter Notebooks/BoneXRayFractureClassificationAlexNet.ipynb
 python Jupyter Notebooks/BoneXRayFractureClassificationResNet18.ipynb
@@ -71,6 +99,24 @@ ResNet18 is a variant of the ResNet model, which introduced the concept of resid
 |---------|----------|
 | AlexNet | 96%      |
 | ResNet18| 97.4%    |
+
+## Deployment
+
+The trained models are saved as `.pth` files in the `pytorch saved models` directory. These files can be used for further deployment purposes. You can load the models in PyTorch using the following code:
+
+```python
+import torch
+from utils/models import AlexNet
+from utils/models import ResNet18
+
+# Load AlexNet model
+alexnet = AlexNet()
+alexnet.load_state_dict(torch.load('pytorch saved models/BoneXRayFractureClassificationAlexNet.pth'))
+
+# Load ResNet18 model
+resnet18 = ResNet18()
+resnet18.load_state_dict(torch.load('pytorch saved models/BoneXRayFractureClassificationResNet18pth'))
+```
 
 ## References
 
