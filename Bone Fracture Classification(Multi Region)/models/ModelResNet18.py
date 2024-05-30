@@ -1,9 +1,6 @@
-import numpy as np
-import pandas as pd
 import time
 import copy
 from PIL import Image
-import matplotlib
 import matplotlib.pyplot as plt
 import torch
 from torch import nn
@@ -14,14 +11,14 @@ from torchvision import transforms
 from torch.autograd import Variable
 from torchvision.datasets import ImageFolder
 import torch.utils.data as data
-from torch.utils.data import DataLoader, TensorDataset
+from torch.utils.data import DataLoader
 import opendatasets as od
 import os
+from pathlib import Path
 from torchvision.transforms import v2
 import random
 import torch
 import torch.nn as nn
-
 
 
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
@@ -326,7 +323,6 @@ optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 model = train_model(model, train_dataloader, val_dataloader, optimizer, criterion ,epoch)
 
 
-
 def plot_loss_curves(results: dict[str, list[float]]):
     """Plots training curves of a results dictionary.
 
@@ -374,9 +370,7 @@ plot_loss_curves(results)
 model.eval()
 
 _, train_acc = evaluate(model, train_dataloader , criterion)
-
 _, val_acc = evaluate(model, val_dataloader , criterion)
-
 _, test_acc = evaluate(model, test_dataloader, criterion)
 
 print('Train Accuracy: {:.4f}%'.format(train_acc))
@@ -384,114 +378,9 @@ print('Validation Accuracy: {:.4f}%'.format(val_acc))
 print('Test Accuracy: {:.4f}%'.format(test_acc))
 
 
-def make_predictions(model: torch.nn.Module,
-                     data: list,
-                     device: torch.device = device):
-    pred_probs = []
-    model.eval()
-    with torch.inference_mode():
-        for sample in data:
-
-            sample = torch.unsqueeze(sample, dim=0).to(device)
-
-            pred_logit = model(sample)
-            pred_prob = torch.softmax(pred_logit.squeeze(), dim=0)
-            pred_probs.append(pred_prob.cpu())
-
-    return torch.stack(pred_probs)
-
-import random
-test_samples = []
-test_labels = []
-for sample, label in random.sample(list(val_data), k=16):
-    test_samples.append(sample)
-    test_labels.append(label)
-
-pred_probs= make_predictions(model=model,
-                             data=test_samples)
-
-pred_classes = pred_probs.argmax(dim=1)
-pred_classes
-
-test_labels, pred_classes
-
-def plot_predicted_images(samples : list ,
-                          test_targets : torch.Tensor ,
-                          test_preds : torch.Tensor,
-                          class_names : list,
-                          rows : int = 4,
-                          cols : int = 4):
-
-    plt.figure(figsize=(15, 15))
-    for i, sample in enumerate(samples):
-      plt.subplot(rows, cols, i+1)
-      plt.imshow(sample.permute(1,2,0), cmap="gray")
-      pred_label = class_names[test_preds[i]]
-      truth_label = class_names[test_targets[i]]
-
-      title_text = f"Pred: {pred_label} | Truth: {truth_label}"
-      if pred_label == truth_label:
-          plt.title(title_text, fontsize=10, c="g")
-      else:
-          plt.title(title_text, fontsize=10, c="r")
-      plt.axis(False);
-
-plot_predicted_images(test_samples, test_labels , pred_classes , class_names )
-
-def get_preds(model , dataloader , device = device):
-    from tqdm.auto import tqdm
-    y_preds = []
-    model.eval()
-    with torch.inference_mode():
-        for X, y in tqdm(dataloader, desc="Making predictions"):
-
-            X, y = X.to(device), y.to(device)
-
-            y_logit = model(X)
-
-            y_pred = torch.softmax(y_logit, dim=1).argmax(dim=1)
-
-            y_preds.append(y_pred.cpu())
-
-    y_pred_tensor = torch.cat(y_preds)
-    return y_pred_tensor
-
-val_preds = get_preds(model , val_dataloader)
-test_preds = get_preds(model , test_dataloader)
-
-len(val_preds) ,len(test_preds) ,
-
-from sklearn.metrics import classification_report
-from sklearn.metrics import accuracy_score
-
-val_targets = [label for image , label  in val_data]
-test_targets = [label for image , label  in test_data]
-
-print(f'Validation Accuarcy : {accuracy_score(val_targets, val_preds)*100}%')
-print(f'Test Accuarcy : {accuracy_score(test_targets, test_preds)*100}%')
-
-
-
-from sklearn.metrics import confusion_matrix
-import seaborn as sns
-def plot_confusion_matrix(title: str ,targets:torch.Tensor , preds : torch.Tensor):
-    cf = confusion_matrix(targets, preds)
-    plt.figure(figsize=(6,4))
-    sns.heatmap(cf , annot=True , cmap = 'Blues')
-    plt.xlabel('Prediction')
-    plt.ylabel('Target')
-    plt.title(f'Confusion Matrix : {title}')
-    plt.show()
-
-plot_confusion_matrix(title = 'Validation Dataset' ,preds = val_preds , targets = val_targets )
-plot_confusion_matrix(title = 'Test Dataset' ,preds = test_preds , targets = test_targets )
-
-
-from pathlib import Path
 
 MODEL_PATH = Path("pytorch_saved_model/")
 MODEL_PATH.mkdir(parents=True, exist_ok=True)
-
 MODEL_NAME = "BoneXRayFractureClassificationResNet18.pth"
 MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
@@ -505,9 +394,7 @@ loaded_model = loaded_model.to(device)
 loaded_model.eval()
 
 _, train_acc = evaluate(loaded_model, train_dataloader , criterion)
-
 _, val_acc = evaluate(loaded_model, val_dataloader , criterion)
-
 _, test_acc = evaluate(loaded_model, test_dataloader, criterion)
 
 print('Train Accuracy: {:.4f}%'.format(train_acc))
