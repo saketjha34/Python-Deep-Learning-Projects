@@ -6,7 +6,7 @@ This repository contains a deep learning project focused on the classification o
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [Project Structure](#project_structure)
+- [Project Structure](#project-structure)
 - [Dataset](#dataset)
 - [Installation](#installation)
 - [Usage](#usage)
