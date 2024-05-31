@@ -106,15 +106,15 @@ The trained models are saved as `.pth` files in the `pytorch saved models` direc
 
 ```python
 import torch
-from utils/models import AlexNet
-from utils/models import ResNet18
+from utils.models import AlexNet
+from utils.models import ResNet18
 
 # Load AlexNet model
-alexnet = AlexNet()
+alexnet = AlexNet(in_channels = 1 , num_classes = 2)
 alexnet.load_state_dict(torch.load('pytorch saved models/BoneXRayFractureClassificationAlexNet.pth'))
 
 # Load ResNet18 model
-resnet18 = ResNet18()
+resnet18 = ResNet18(in_channels = 1 , num_classes = 2)
 resnet18.load_state_dict(torch.load('pytorch saved models/BoneXRayFractureClassificationResNet18pth'))
 ```
 
@@ -122,6 +122,7 @@ resnet18.load_state_dict(torch.load('pytorch saved models/BoneXRayFractureClassi
 
 - Krizhevsky, A., Sutskever, I., & Hinton, G. E. (2012). ImageNet Classification with Deep Convolutional Neural Networks. *Advances in Neural Information Processing Systems*, 25, 1097-1105. [PDF](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf)
 - He, K., Zhang, X., Ren, S., & Sun, J. (2015). Deep Residual Learning for Image Recognition. *arXiv preprint arXiv:1512.03385*. [PDF](https://arxiv.org/abs/1512.03385)
+- Kaggle Dataset : [link](https://www.kaggle.com/datasets/bmadushanirodrigo/fracture-multi-region-x-ray-data)
 
 ## License
 
@@ -143,7 +144,7 @@ This project is licensed under the MIT License. See the [LICENSE](../LICENSE) fi
 
 ## Contact
 
-For any questions or suggestions, please open an issue or contact me at saketjha34@gmail.com.
+For any questions or suggestions, please open an issue or contact me @ saketjha0324@gmail.com. or [Linkedin](https://www.linkedin.com/in/saketjha34/)
 
 ---
 
