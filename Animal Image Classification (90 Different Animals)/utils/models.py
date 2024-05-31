@@ -1,4 +1,5 @@
 import torch.nn as nn
+import timm 
 
 class ResidualBlock(nn.Module):
     def __init__(
@@ -130,3 +131,12 @@ class ResNet(nn.Module):
 
 def ResNet50(img_channel=3, num_classes=1000):
     return ResNet(ResidualBlock, [3, 4, 6, 3], img_channel, num_classes)
+
+
+class DarkNet53(nn.Module):
+    def __init__(self , num_classes = 1000):
+        super(DarkNet53, self).__init__()
+        self.model = timm.create_model('darknet53', pretrained=True, num_classes = num_classes)
+
+    def forward(self,x):
+        return self.model(x)
