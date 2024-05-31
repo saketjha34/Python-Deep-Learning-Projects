@@ -27,13 +27,16 @@ This project focuses on classifying images of 90 different animal species using 
 │   ├── test
 ├── models
 │   ├── ModelResNet50.py
+│   ├── ModelDarkNet53.py
 ├── jupyter notebooks
 │   ├── AnimalImageClassificationResNet50.ipynb
+│   ├── AnimalImageClassificationDarkNet52.ipynb
 ├── utils
 │   ├── utils.py
 │   ├── models.py
 ├── pytorch saved models
 │   ├── AnimalImageClassificationResnet50.pth
+│   ├── AnimalImageClassificationDarkNet52.pth
 ├── testing
 │   ├── Images/
 │   ├── test.ipynb
@@ -62,12 +65,14 @@ To train the model, run:
 
 ```bash
 python models/ModelResNet50.py 
+python models/ModelDarkNet53.py 
 ```
 
 To view model performances and benchmarks check out:
 
 ```bash
 python Jupyter Notebooks/AnimalImageClassificationResNet50.ipynb
+python Jupyter Notebooks/AnimalImageClassificationDarkNet53.ipynb
 ```
 
 For more detailed instructions, refer to the `utils/utils.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
@@ -83,11 +88,20 @@ ResNet50 Architecture Overview
 
 ResNet50, a deep convolutional neural network, was introduced by He et al. in 2015 to tackle the vanishing gradient problem. Utilizing residual learning, it incorporates skip connections that allow gradients to flow more smoothly during backpropagation. The architecture comprises an initial convolutional layer, followed by four stages of convolutional blocks with three bottleneck layers each. These blocks include identity and convolutional shortcuts. ResNet50 concludes with a fully connected layer and a softmax activation for classification, making it effective for image classification and object detection tasks.
 
+### DarkNet53
+
+DarkNet53 Architecture Overview
+
+Darknet-53 is a convolutional neural network architecture that is part of the Darknet framework, known primarily for its use in the YOLOv3 object detection system. It is designed to be efficient and robust, combining both residual connections and a high number of convolutional layers. Here’s a brief overview of the Darknet-53 architecture with an input image of size 3 x 224 x 224
+
 ### References
 
 1. **He, K., Zhang, X., Ren, S., & Sun, J. (2016).** Deep Residual Learning for Image Recognition. In *Proceedings of the IEEE conference on computer vision and pattern recognition (CVPR)* (pp. 770-778). [Paper](https://arxiv.org/abs/1512.03385)
+2. The original paper detailing YOLOv3, which introduces Darknet-53, can be found [here](https://arxiv.org/abs/1804.02767) .
+3. The implementation details and code for Darknet and Darknet-53 are available in the official [Darknet GitHub repository](https://github.com/pjreddie/darknet) .
 
-2. **Adaptations and Applications:**
+
+3. **Adaptations and Applications:**
    - **He, K., Zhang, X., Ren, S., & Sun, J. (2016).** Identity Mappings in Deep Residual Networks. In *European Conference on Computer Vision (ECCV)* (pp. 630-645). [Paper](https://arxiv.org/abs/1603.05027)
    - **Hu, J., Shen, L., & Sun, G. (2018).** Squeeze-and-Excitation Networks. In *Proceedings of the IEEE conference on computer vision and pattern recognition (CVPR)* (pp. 7132-7141). [Paper](https://arxiv.org/abs/1709.01507)
 
@@ -95,9 +109,10 @@ These references provide in-depth insights into the architecture and its enhance
 
 ## Results
 
-| Model    | Accuracy |
-|----------|----------|
-| ResNet50 |   90.2%  |
+| Model     | Accuracy |
+|-----------|----------|
+| ResNet50  |   90.2%  |
+| DarkNet53 |   84.0%  |
 
 ## Testing 
 ### Testing the Trained Model
@@ -122,13 +137,13 @@ The trained models are saved as `.pth` files in the `pytorch saved models` direc
 
 ```python
 import torch
-from utils.model import ResNet50
+from utils.models import ResNet50
 
 resnet50 = ResNet50(img_channel=3, num_classes=90)
 resnet50.load_state_dict(torch.load('pytorch saved models/AnimalImageClassificationResnet50.pth'))
 ```
 
-<-------------------------------------------xxxxxxxxxxxxx--------------------------------------------->
+<--------------------------------------------------------xxxxxxxxxxxxx-------------------------------------------------------------->
 
 ```python
 import torch
@@ -144,6 +159,17 @@ MODEL_SAVE_PATH = '../pytorch saved model/AnimalImageClassificationResnet50.pth'
 loaded_model = model
 loaded_model.load_state_dict(torch.load(f=MODEL_SAVE_PATH ,map_location=torch.device('cpu')))
 loaded_model = loaded_model.to(device)
+```
+
+<----------------------------------------------------------xxxxxxxxxxxxx-------------------------------------------------------------->
+
+```python
+import torch
+import timm
+from utils.models import DarkNet53
+
+DarkNet53 = DarkNet53(num_classes=90)
+DarkNet53.load_state_dict(torch.load('pytorch saved models/AnimalImageClassificationDarkNet53.pth'))
 ```
 
 ## References
