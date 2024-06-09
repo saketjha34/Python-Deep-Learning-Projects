@@ -1,13 +1,15 @@
 import os
+import cv2
 import torch
 import random
+from PIL import Image
 import torch.nn as nn
 import torch.functional as F
 from tqdm.notebook import tqdm
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
+import torchvision.transforms as transforms
 from torchvision.utils import make_grid , save_image
-
 
 def plot_random_images(dataset:torch.utils.data.dataset.Dataset ,
                        class_names : list[str] = None,
@@ -414,3 +416,57 @@ def plot_loss_curve_grid(results: dict[str, list[float]]) -> None:
 
     plt.tight_layout()
     plt.show()
+
+def images_to_video(image_folder:str, 
+                    video_path:str,
+                    target_duration : int=10, 
+                    target_fps : int=60) -> None:
+    """
+    Convert a folder of images to a video slowed down to the target duration.
+    
+    Args:
+    - image_folder (str): Path to the folder containing images.
+    - video_path (str): Path where the output video will be saved.
+    - target_duration (int): Desired duration of the output video in seconds.
+    - target_fps (int): Frames per second for the video.
+    
+    Returns:
+    - None
+    """
+    images = [img for img in os.listdir(image_folder) if img.endswith(".png") or img.endswith(".jpg")]
+    images.sort()  
+
+    first_image_path = os.path.join(image_folder, images[0])
+    first_image = Image.open(first_image_path)
+    width, height = first_image.size
+
+    total_frames_needed = target_fps * target_duration
+
+    repeats_per_frame = total_frames_needed // len(images)
+    if total_frames_needed % len(images) != 0:
+        repeats_per_frame += 1
+
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')  
+    video = cv2.VideoWriter(video_path, fourcc, target_fps, (width, height))
+
+    transform = transforms.ToTensor()
+
+    for image_file in images:
+        image_path = os.path.join(image_folder, image_file)
+        image = Image.open(image_path)
+        
+        image_tensor = transform(image)
+
+        image_np = image_tensor.permute(1, 2, 0).numpy() * 255
+        image_np = image_np.astype('uint8')
+
+        image_np = cv2.cvtColor(image_np, cv2.COLOR_RGB2BGR)
+        
+        for _ in range(repeats_per_frame):
+            video.write(image_np)
+
+
+    video.release()
+    cv2.destroyAllWindows()
+
+    print(f"Video saved at {video_path}")
