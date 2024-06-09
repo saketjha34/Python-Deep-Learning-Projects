@@ -2,7 +2,4 @@
 
 Here is a video demonstration:
 
-<video width="600" controls>
-  <source src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Anime Face Generator using GANs/output_video.avi" type="avi">
-  Your browser does not support the video tag.
-</video>
+<iframe width="1186" height="595" src="https://www.youtube.com/embed/muw9ZHTmwOA" title="Anime Face Generation Using DCGANS | Pytorch Deep Learning" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
