@@ -13,6 +13,7 @@ This project uses Deep Convolutional Generative Adversarial Networks (DCGANs) to
 - [Dataset](#dataset)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Results](#results)
 - [Model Architecture](#model-architecture)
 - [DCGAN](#dcgan)
 - [Deployment](#deployment)
@@ -50,13 +51,6 @@ This project utilizes Deep Convolutional Generative Adversarial Networks (DCGANs
 └── requirements.txt
 ```
 
-
-## Dataset
-
-Sure! Here's a section about the dataset for your README:
-
----
-
 ## Dataset
 
 The dataset used for training the DCGAN model consists of thousands of anime face images. These images have been curated to provide a diverse set of examples, encompassing various styles and features typical of anime characters. The dataset is preprocessed to ensure consistency in size and quality, which helps in stabilizing the training process and improving the quality of the generated images. You can find the dataset in the `dataset/` directory within this repository. 
@@ -89,11 +83,17 @@ python Jupyter Notebooks/AnimeFaceGeneratorDCGAN.ipynb
 
 For more detailed instructions, refer to the `utils/utils.py` , `utils/config.py` and `utils/model.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
 
+## Results
+
+During training, 50 images were generated and saved in the `Generated Images` folder. These images represent the progression and improvements of the generator model over time. Additionally, a compiled video of these generated images, showcasing the development of the anime faces throughout the training process, can be found [here](output_video.mp4).
+
+```bash
+cd Generated Images/generated-images-0012.png
+```
+
 ## Model Architecture
 
 The model is built from scratch using convolutional neural networks like ResNet18 and AlexNet. The architecture details are available in the `utils/models.py` directory.
-
-### AlexNet
 
 Generator
 The generator in a DCGAN takes random noise as input and transforms it through a series of transposed convolutional layers, batch normalization, and ReLU activations to produce a synthetic image. This network aims to create realistic-looking anime faces that can deceive the discriminator.
@@ -131,7 +131,6 @@ Key training practices include:
 - **Tanh Activation in Generator Output**: Ensures the output image pixels are in the range \([-1, 1]\), matching the preprocessing of input images.
 
 For more details, refer to the original paper: [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434).
-
 
 ## Deployment
 
@@ -172,6 +171,7 @@ class Generator(nn.Module):
 generator = Generator( noise_channels = NOISE_DIM , img_channels = IMG_CHANNELS )
 generator.load_state_dict(torch.load('pytorch saved models/AnimeFaceDCGANs.pth'))
 ```
+
 ## References
 
 - Radford, Alec, Luke Metz, and Soumith Chintala. "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks." arXiv preprint arXiv:1511.06434 (2015). [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434)
