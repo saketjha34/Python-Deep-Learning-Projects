@@ -171,7 +171,7 @@ class Generator(nn.Module):
 # Load Generator model
 generator = Generator( noise_channels = NOISE_DIM , img_channels = IMG_CHANNELS )
 generator.load_state_dict(torch.load('pytorch saved models/AnimeFaceDCGANs.pth'))
-
+```
 ## References
 
 - Radford, Alec, Luke Metz, and Soumith Chintala. "Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks." arXiv preprint arXiv:1511.06434 (2015). [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/abs/1511.06434)
