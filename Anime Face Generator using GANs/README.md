@@ -3,5 +3,4 @@
 Here is a video demonstration:
 
 
-[![YouTube](http://i.ytimg.com/vi/muw9ZHTmwOA/hqdefault.jpg)](https://www.youtube.com/watch?v=muw9ZHTmwOA)
-
+https://github.com/saketjha34/Python-Deep-Learning-Projects/issues/1#issue-2342074726
