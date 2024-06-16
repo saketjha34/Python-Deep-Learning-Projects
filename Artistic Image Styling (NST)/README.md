@@ -66,7 +66,7 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 
 ## Examples
 
-![Alt text](Artistic Image Styling (NST)/Generated Images/generated-image-00000001.png)
+![Artistic Image Styling (NST)/Generated Images/generated-image-00000001.png](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/Generated%20Images/generated-image-00000001.png)
 
 
 ## Dataset
