@@ -40,7 +40,7 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 <!DOCTYPE html>
 <html lang="en">
 <body>
-<iframe width="560" height="315" src="https://www.youtube.com/embed/muw9ZHTmwOA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/muw9ZHTmwOA" > video</iframe>
 </body>
 </html>
 
