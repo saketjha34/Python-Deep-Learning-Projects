@@ -77,14 +77,15 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 ### Example3
 ![Example 3](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/results/output3.png)
 
-To view more such example vist `results/` directory or run the following command to view all the examples imagge styles implementation on the dataset
+To view more examples, visit the `results/` directory. Alternatively, you can run the following command to view all the style implementations on the dataset:
 ```bash
 python ModelResults.ipynb
 ```
 
 ## Dataset
 
-The dataset used for training the DCGAN model consists of thousands of anime face images. These images have been curated to provide a diverse set of examples, encompassing various styles and features typical of anime characters. The dataset is preprocessed to ensure consistency in size and quality, which helps in stabilizing the training process and improving the quality of the generated images. You can find the dataset in the `dataset/` directory within this repository. 
+The entire dataset, including test images to be styled and various artworks to be used as styles, has been uploaded as a Kaggle dataset. You can access it via the following link:
+[Link to Kaggle dataset](https://www.kaggle.com/datasets/skjha69/artistic-images-for-neural-style-transfer).
 
 ---
 
@@ -92,25 +93,66 @@ The dataset used for training the DCGAN model consists of thousands of anime fac
 
 Clone the repository and install the required dependencies:
 
-```bash
-git clone https://github.com/saketjha34/Python-Deep-Learning-Projects.git
-cd Python-Deep-Learning-Projects/Anime%20Face%20Generator%20using%20GANs
-pip install -r requirements.txt
-```
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/saketjha34/Python-Deep-Learning-Projects.git
+    cd Python-Deep-Learning-Projects/Artistic%20Image%20Styling%20(NST)
+    ```
+2. Create and activate a virtual environment:
+    ```bash
+    python -m venv imagestyling
+    source imagestyling/bin/activate
+    ```
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 ## Usage
 
-To train the model, run:
 
-```bash
-python models/ModelDCGAN.py  
-```
+To train the model on your own custom image and perform neural style transfer, follow these steps:
 
-To view model performances and benchmarks check out:
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/saketjha34/Python-Deep-Learning-Projects.git
+    cd Python-Deep-Learning-Projects/Artistic%20Image%20Styling%20(NST)
+    ```
 
-```bash
-python Jupyter Notebooks/AnimeFaceGeneratorDCGAN.ipynb
-```
+2. Create and activate a virtual environment:
+    ```bash
+    python -m venv imagestyling
+    source imagestyling/bin/activate
+    ```
+
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4. Configure `config.py` located in the `utils/` directory:
+    ```bash
+    cd utils/
+    ```
+    Place your content image into the `images/` directory and select the style image to perform NST. Then replace the content image path with yours and do the same for the style image in the `config.py` file:
+    ```python
+    EPOCHS = 6000
+    LEARNING_RATE = 1e-3
+    WEIGHTS = (2, 0.01)
+    IMG_SIZE = 720
+    IMG_CHANNEL = 3
+    ORIGINAL_IMG_PATH = 'path/to/your/input/image.jpg'
+    STYLE_IMG_PATH = 'path/to/your/style/image.jpg'
+    ```
+
+5. Train the model from the `src/` directory:
+    ```bash
+    cd ../src/
+    ```
+    Once the settings and image paths have been configured, run:
+    ```bash
+    python train.py
+    ``` 
 
 For more detailed instructions, refer to the `utils/utils.py` , `utils/config.py` and `utils/model.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
 
