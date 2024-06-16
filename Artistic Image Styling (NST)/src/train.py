@@ -8,14 +8,17 @@ from torchvision.utils import save_image
 import torchvision.transforms as transforms
 from torchvision.transforms import v2, transforms
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+from utils.config import IMG_CHANNEL,IMG_SIZE,EPOCHS,LEARNING_RATE,WEIGHTS,ORIGINAL_IMG_PATH,STYLE_IMG_PATH
+
+IMG_CHANNEL = IMG_CHANNEL
+IMG_SIZE = IMG_SIZE
+EPOCHS = EPOCHS
+LEARNING_RATE = LEARNING_RATE
+WEIGHTS = WEIGHTS
+ORIGINAL_IMG_PATH = ORIGINAL_IMG_PATH
+STYLE_IMG_PATH = STYLE_IMG_PATH
 
 
-IMG_SIZE = 720
-EPOCHS = 6000
-LEARNING_RATE = 0.001
-WEIGHTS = (20,0.1)
-original_img_path = '/kaggle/input/stylingimages/person3.jpg'
-style_img_Path = '/kaggle/input/stylingimages/style8.jpg'
 image_transforms = transforms.Compose([
         v2.Resize(size = (IMG_SIZE,IMG_SIZE)),
         v2.CenterCrop((IMG_SIZE,IMG_SIZE)),
@@ -115,8 +118,8 @@ def train_model(model : torch.nn.Module,
 
 
 model = ImageStyler().to(device).eval()
-original_img = load_image(img_path=original_img_path , image_transforms=image_transforms)
-style_img = load_image(img_path=style_img_Path , image_transforms=image_transforms)
+original_img = load_image(img_path=ORIGINAL_IMG_PATH , image_transforms=image_transforms)
+style_img = load_image(img_path=STYLE_IMG_PATH , image_transforms=image_transforms)
 generated_img = original_img.clone().requires_grad_(True)
 optimizer = optim.Adam([generated_img], lr=LEARNING_RATE)
 content_loss_fn = ContentLoss()
