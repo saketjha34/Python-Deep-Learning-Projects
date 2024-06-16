@@ -48,6 +48,8 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 │   ├── Generated Images during training
 ├── output
 │   ├── generated images on test_images.jpg
+├── results
+│   ├── images of styles implemnted on the dataset
 ├── styles
 │   ├── styling_images.jpg
 ├── src
@@ -75,7 +77,10 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 ### Example3
 ![Example 3](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/results/output3.png)
 
-
+To view more such example vist `results/` directory or run the following command to view all the examples imagge styles implementation on the dataset
+```bash
+python ModelResults.ipynb
+```
 
 ## Dataset
 
