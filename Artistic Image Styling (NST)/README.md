@@ -37,7 +37,14 @@ The NST algorithm optimizes a combination of two loss functions:
 In this implementation, we use the VGG19 network architecture without batch normalization. VGG19 is a deep convolutional network that consists of 19 layers, including 16 convolutional layers and 3 fully connected layers. For the purpose of NST, only the convolutional layers are used because they capture hierarchical image features that are essential for content and style representation.
 The VGG19 model pre-trained on the ImageNet dataset is employed to extract feature representations from the content and style images. Specifically, feature maps from layers like `conv1_1`, `conv2_1`, `conv3_1`, `conv4_1`, `conv5_1` (for style) and `conv4_2` (for content) are utilized to compute the respective loss functions.
 
-![atl video](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Anime%20Face%20Generator%20using%20GANs/output_video.mp4)
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/muw9ZHTmwOA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</body>
+</html>
+
+
 
 ## Project Structure
 
