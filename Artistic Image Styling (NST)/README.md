@@ -7,6 +7,7 @@ Neural Style Transfer is a technique that takes two images—a content image and
 
 - [Introduction](#introduction)
 - [Project Structure](#project-structure)
+- [Examples](#examples)
 - [Dataset](#dataset)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -33,10 +34,6 @@ The NST algorithm optimizes a combination of two loss functions:
 - **Content Loss**: This measures the difference in content between the generated image and the content image. It is typically computed using the mean squared error between feature maps from a certain layer of the CNN.
 - **Style Loss**: This measures the difference in style between the generated image and the style image. It is calculated using the Gram matrix of feature maps from multiple layers of the CNN to capture the correlations between different filter responses.
 
-The total loss function is a weighted sum of the content and style loss functions:
-\[ \text{Total Loss} = \alpha \cdot \text{Content Loss} + \beta \cdot \text{Style Loss} \]
-where \( \alpha \) and \( \beta \) are the weights for the content and style losses, respectively.
-
 In this implementation, we use the VGG19 network architecture without batch normalization. VGG19 is a deep convolutional network that consists of 19 layers, including 16 convolutional layers and 3 fully connected layers. For the purpose of NST, only the convolutional layers are used because they capture hierarchical image features that are essential for content and style representation.
 The VGG19 model pre-trained on the ImageNet dataset is employed to extract feature representations from the content and style images. Specifically, feature maps from layers like `conv1_1`, `conv2_1`, `conv3_1`, `conv4_1`, `conv5_1` (for style) and `conv4_2` (for content) are utilized to compute the respective loss functions.
 
@@ -45,26 +42,32 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 
 ```
 .
-├── dataset
-│   ├── train
-│   ├── readme.txt
-├── models
-│   ├── ModelDCGAN.py
-├── jupyter notebooks
-│   ├── AnimeFaceGeneratorDCGAN.ipynb
+├── images
+│   ├── test_images.jpg
+├── Generated Images
+│   ├── Generated Images during training
+├── output
+│   ├── generated images on test_images.jpg
+├── styles
+│   ├── styling_images.jpg
+├── src
+│   ├── train.py
 ├── utils
 │   ├── utils.py
-│   ├── model.py
 │   ├── config.py
-├── pytorch saved models
-│   ├── AnimeFaceGeneratorDCGAN.pth
-├── Generated Images
-│   ├── images generated during training -> 1 to 50
-├── README.md
-├── DCGAN PAPER.pdf
+│   ├── model.py
+├── ArtisticImageStyling.ipynb
+├── ModelResults.ipynb
+├── NST PAPER.pdf
 ├── output_video.mp4
+├── README.md
 └── requirements.txt
 ```
+
+## Examples
+
+![Alt text](Artistic Image Styling (NST)/Generated Images/generated-image-00000001.png)
+
 
 ## Dataset
 
