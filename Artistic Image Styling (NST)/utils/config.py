@@ -1,7 +1,7 @@
 import os
 import torch
 import torch.nn as nn
-
+from torchvision.transforms import transforms , v2
 
 def get_default_device():
     """Pick GPU if available, else CPU"""
@@ -32,8 +32,7 @@ class DeviceDataLoader():
     def __len__(self):
         """Number of batches"""
         return len(self.dl)
-
-
+    
 EPOCHS = 6000
 LEARNING_RATE = 1e-4
 WEIGHTS = (2,0.01)
@@ -41,3 +40,10 @@ IMG_SIZE = 356
 IMG_CHANNEL = 3
 ORIGINAL_IMG_PATH = 'path/to/your/input/image.jpg'
 STYLE_IMG_PATH = 'path/to/styling/image.jpg'
+    
+image_transforms = transforms.Compose([
+        v2.Resize(size = (IMG_SIZE,IMG_SIZE)),
+        v2.CenterCrop((IMG_SIZE,IMG_SIZE)),
+        transforms.ToTensor(),
+    ])
+
