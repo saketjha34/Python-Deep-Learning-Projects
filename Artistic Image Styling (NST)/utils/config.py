@@ -33,10 +33,10 @@ class DeviceDataLoader():
         """Number of batches"""
         return len(self.dl)
     
-EPOCHS = 6000
-LEARNING_RATE = 1e-4
+EPOCHS = 4000
+LEARNING_RATE = 1e-3
 WEIGHTS = (2,0.01)
-IMG_SIZE = 356
+IMG_SIZE = 720
 IMG_CHANNEL = 3
 ORIGINAL_IMG_PATH = 'path/to/your/input/image.jpg'
 STYLE_IMG_PATH = 'path/to/styling/image.jpg'
