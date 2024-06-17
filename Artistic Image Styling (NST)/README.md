@@ -69,10 +69,10 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 ### Example-1
 ![Example 1](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/results/output1.png)
 
-### Example-1
+### Example-2
 ![Example 2](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/results/output2.png)
 
-### Example-1
+### Example-3
 ![Example 3](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/results/output3.png)
 
 To view more examples, visit the `results/` directory. Alternatively, you can run the following command to view all the style implementations on the dataset:
