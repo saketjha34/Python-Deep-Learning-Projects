@@ -25,7 +25,6 @@ class UpConvLayer(nn.Module):
         x = self.Layer(x)
         return self.Dropout(x) if self.use_dropout else x
 
-
 class Generator(nn.Module):
     def __init__(self, in_channels = 3):
         super(Generator,self).__init__()
@@ -77,6 +76,7 @@ class Generator(nn.Module):
         up6 = self.UpConvLayer6(torch.cat([up5 ,down3],dim=1))
         up7 = self.UpConvLayer7(torch.cat([up6 ,down2],dim=1))
         return self.FinalConvLayer(torch.cat([up7 ,down1],dim=1))
+    
 
 class ConvBlock(nn.Module):
     def __init__(self, in_channels, out_channels, stride=2):
