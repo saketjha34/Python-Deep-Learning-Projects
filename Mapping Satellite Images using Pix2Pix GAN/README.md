@@ -1,8 +1,5 @@
 # Mapping Satellite Images using Pix2Pix GAN | Image Translation
 
-This project leverages the Pix2Pix GAN (Generative Adversarial Network) model to map satellite images to corresponding map images.
-The Pix2Pix GAN is a type of conditional GAN designed for image-to-image translation tasks.
-
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -11,7 +8,7 @@ The Pix2Pix GAN is a type of conditional GAN designed for image-to-image transla
 - [Usage](#usage)
 - [Results](#results)
 - [Model Architecture](#model-architecture)
-- [DCGAN](#dcgan)
+- [Pix2PixGAN](#pix2pixgan)
 - [Deployment](#deployment)
 - [References](#references)
 - [Contributing](#contributing)
@@ -20,10 +17,8 @@ The Pix2Pix GAN is a type of conditional GAN designed for image-to-image transla
 
 ## Introduction
 
-This project utilizes Deep Convolutional Generative Adversarial Networks (DCGANs) to generate realistic anime faces.
-By leveraging the power of GANs, specifically DCGANs, this project aims to create high-quality, novel anime character faces from scratch. 
-The GAN framework consists of two neural networks, the Generator and the Discriminator, that are trained together to produce increasingly convincing images.
-This repository includes the complete code for training the models, generating images, and evaluating the results
+This project leverages the Pix2Pix GAN (Generative Adversarial Network) model to map satellite images to corresponding map images.
+The Pix2Pix GAN is a type of conditional GAN designed for image-to-image translation tasks.
 
 
 ## Project Structure
