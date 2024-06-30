@@ -1,4 +1,4 @@
-# Mapping Satellite Images using Pix2Pix GAN | Image Translation
+![generated-images-0059](https://github.com/saketjha34/Python-Deep-Learning-Projects/assets/148564188/d9a419d8-3f2a-4ad5-97a1-5bb52282e21a)# Mapping Satellite Images using Pix2Pix GAN | Image Translation
 
 ## Table of Contents
 
@@ -26,6 +26,12 @@ Generated Maps:
 ![2.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0074.png)
 
 ![3.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0036.png)
+
+![4.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0035.png)
+
+![5.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0100.png)
+
+![6.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0127.png)
 
 
 ## Project Structure
