@@ -20,6 +20,13 @@
 This project leverages the Pix2Pix GAN (Generative Adversarial Network) model to map satellite images to corresponding map images.
 The Pix2Pix GAN is a type of conditional GAN designed for image-to-image translation tasks.
 
+Generated Maps:
+[1.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0003.png)
+
+[2.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0074.png)
+
+[3.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0036.png)
+
 
 ## Project Structure
 
