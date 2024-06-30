@@ -83,13 +83,13 @@ To train the model on your own custom images.
     ```
     
    ```python
-      IMG_SIZE = 512
-      IMG_CHANNEL = 3
-      BATCH_SIZE = 8
-      LEARNING_RATE = 2e-4
-      EPOCHS = 200
-      L1_LAMBDA = 1000
-      NUM_WORKERS = os.cpu_count()
+   IMG_SIZE = 512
+   IMG_CHANNEL = 3
+   BATCH_SIZE = 8
+   LEARNING_RATE = 2e-4
+   EPOCHS = 200
+   L1_LAMBDA = 1000
+   NUM_WORKERS = os.cpu_count()
     ```
 
 5. Train the model from the `src/` directory:
