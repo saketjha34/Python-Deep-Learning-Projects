@@ -123,7 +123,7 @@ The training process involves the following steps:
 1. **Generator Loss**: The generator aims to minimize a combination of adversarial loss and L1 loss. The adversarial loss ensures that the generated images are realistic, while the L1 loss ensures they are close to the ground truth images.
 2. **Discriminator Loss**: The discriminator aims to correctly classify real images as real and generated images as fake.
 
-## Pix2Pix GAN
+## Pix2PixGAN
 
 The Pix2Pix GAN is a type of conditional Generative Adversarial Network (cGAN) designed for image-to-image translation tasks. Unlike traditional GANs, which generate images from random noise, the Pix2Pix GAN generates images based on an input image, making it highly suitable for tasks such as translating satellite images into map images.
 
