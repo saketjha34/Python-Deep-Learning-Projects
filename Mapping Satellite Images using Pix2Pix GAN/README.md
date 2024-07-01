@@ -27,6 +27,12 @@ Generated Maps:
 
 ![3.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0036.png)
 
+![4.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0035.png)
+
+![5.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0100.png)
+
+![6.](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Mapping%20Satellite%20Images%20using%20Pix2Pix%20GAN/generated%20maps/generated-image-0127.png)
+
 
 ## Project Structure
 
