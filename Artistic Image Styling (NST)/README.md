@@ -46,20 +46,24 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 │   ├── Generated Images during training
 ├── output
 │   ├── generated images on test_images.jpg
-├── results
-│   ├── images of styles implemnted on the dataset
 ├── styles
 │   ├── styling_images.jpg
+├── results
+│   ├── output1.png               ## Image Grid (Input_Image, Style_Image, Generated_Image)
 ├── src
-│   ├── train.py
+│   ├── __init__.py               ## Module Initialization
+│   ├── model.py                  ## Pytorch Code for Model Implementation
+│   ├── plot_loss_curve.py        ## loss_curve ploting Implementation
+│   ├── train.py                  ## Train Model
 ├── utils
-│   ├── utils.py
-│   ├── config.py
-│   ├── model.py
-├── ArtisticImageStyling.ipynb
-├── ModelResults.ipynb
-├── NST PAPER.pdf
-├── output_video.mp4
+│   ├── __init__.py               ## Module Initialization
+│   ├── utils.py                  ## Utility Functions
+│   ├── config.py                 ## Model Config
+├── main.py                       ## Implementation of Main Logic 
+├── ArtisticImageStyling.ipynb    ## Notebook Version 
+├── ModelResults.ipynb            ## Results Obtained 
+├── config.yaml                   ## Results Obtained 
+├── demo.gif                      ## gif file of output 
 ├── README.md
 └── requirements.txt
 ```
