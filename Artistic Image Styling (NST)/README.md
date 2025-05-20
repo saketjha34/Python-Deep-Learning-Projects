@@ -1,21 +1,10 @@
 # Artistic Image Styling (Neural Style Transfer)
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-  <div style="text-align: center;">
-    <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/images/lady%20(6).jpg" width="720" height="720" alt="Input Image">
-    <p><strong>Input Image</strong></p>
-  </div>
-  <div style="text-align: center;">
-    <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/styles/style%20(14).jpg" width="720" height="720" alt="Style Image">
-    <p><strong>Style Image</strong></p>
-  </div>
-  <div style="text-align: center;">
-    <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/demo.gif" width="720" height="720" alt="Artistic Output">
-    <p><strong>Artistic Styling</strong></p>
-  </div>
-</div>
+<p align="center">
+  <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/images/lady%20(6).jpg" width="240" alt="Input Image">
+  <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/styles/style%20(14).jpg" width="240" alt="Style Image">
+  <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/demo.gif" width="240"
 
-<p align="center"><strong>Input Image + Style Image = Artistic Image Styling</strong></p>
 
 
 
