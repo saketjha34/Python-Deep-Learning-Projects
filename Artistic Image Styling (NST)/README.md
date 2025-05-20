@@ -1,6 +1,13 @@
 # Artistic Image Styling (Neural Style Transfer)
 
-![Artistic Image Styling](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/demo.gif)
+<p align="center">
+  <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/images/lady%20(6).jpg" width="30%" alt="Input Image">
+  <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/styles/style%20(14).jpg" width="30%" alt="Style Image">
+  <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/demo.gif" width="30%" alt="Artistic Output">
+</p>
+
+<p align="center"><strong>Input Image + Style Image = Artistic Image Styling</strong></p>
+
 
 
 This repository contains a project that implements Neural Style Transfer (NST) using deep learning techniques. 
