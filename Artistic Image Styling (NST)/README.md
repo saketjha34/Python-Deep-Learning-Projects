@@ -1,6 +1,6 @@
 # Artistic Image Styling (Neural Style Transfer)
 
-<div style="display: flex; justify-content: center; gap: 10px; align-items: center;">
+<div style="display: flex; justify-content: center; gap: 10px; align-items: center; , flex-direction: horizontal">
   <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/images/lady%20(6).jpg" width="720" height="720" alt="Input Image">
   <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/styles/style%20(14).jpg" width="720" height="720" alt="Style Image">
   <img src="https://github.com/saketjha34/Python-Deep-Learning-Projects/raw/main/Artistic%20Image%20Styling%20(NST)/demo.gif" width="720" height="720" alt="Artistic Output">
