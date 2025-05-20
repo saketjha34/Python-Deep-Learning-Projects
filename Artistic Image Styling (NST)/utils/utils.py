@@ -1,7 +1,6 @@
 import torch
 from PIL import Image
 import torchvision.transforms as transforms
-from matplotlib.gridspec import GridSpec
 from torchvision.utils import save_image
 from tqdm.notebook import tqdm
 import os
@@ -12,6 +11,37 @@ import torchvision.transforms as transforms
 from PIL import Image
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+def get_default_device():
+    """Pick GPU if available, else CPU"""
+    if torch.cuda.is_available():
+        return torch.device('cuda')
+    else:
+        return torch.device('cpu')
+    
+
+def to_device(data, device):
+    """Move tensor(s) to chosen device"""
+    if isinstance(data, (list,tuple)):
+        return [to_device(x, device) for x in data]
+    return data.to(device, non_blocking=True)
+
+
+class DeviceDataLoader():
+    """Wrap a dataloader to move data to a device"""
+    def __init__(self, dl, device):
+        self.dl = dl
+        self.device = device
+        
+    def __iter__(self):
+        """Yield a batch of data after moving it to device"""
+        for b in self.dl: 
+            yield to_device(b, self.device)
+
+    def __len__(self):
+        """Number of batches"""
+        return len(self.dl)
+
 
 def load_image(img_path: str, 
                image_transforms: transforms.Compose) -> torch.Tensor:
@@ -91,170 +121,6 @@ def image_to_tensor(img_path: str, image_transforms: transforms.Compose) -> torc
     image = Image.open(img_path)
     return image_transforms(image)
 
-def train_model(model : torch.nn.Module,
-                generated_img : torch.Tensor,
-                original_img : torch.Tensor,
-                style_img : torch.Tensor,
-                optimizer : torch.optim.Optimizer,
-                content_loss_fn : torch.nn.Module,
-                style_loss_fn : torch.nn.Module,
-                weights : tuple[float , float],
-                save_generated_image: callable,
-                epochs : int) -> dict[str, list[float]]:
-    """
-    Trains a neural network model for style transfer, optimizing the generated image to match the style of a given style image while preserving the content of an original image.
-
-    Parameters:
-    model (torch.nn.Module): The neural network model used to extract features from images.
-    generated_img (torch.Tensor): The image being generated and optimized.
-    original_img (torch.Tensor): The original image whose content is to be preserved.
-    style_img (torch.Tensor): The style image whose style is to be applied to the generated image.
-    optimizer (torch.optim.Optimizer): The optimizer used to update the generated image.
-    content_loss_fn (callable): The function used to compute the content loss between the generated image and the original image.
-    weights (tuple[float, float]): A tuple containing two weights: the content weight and the style weight.
-    style_loss_fn (callable): The function used to compute the style loss between the generated image and the style image.
-    epochs (int): The number of epochs for training.
-
-    Returns:
-    dict[str, list[float]]: A dictionary containing lists of content loss, style loss, and total loss recorded at each epoch.
-    """
-    
-    results = {
-        'content_loss': [],
-        'style_loss': [],
-        'total_loss': [],
-    }
-
-    for epoch in tqdm(range(epochs)):
-
-        content_weight = weights[0]
-        style_weight = weights[1]
-
-        generated_img_features = model(generated_img)
-        original_img_features = model(original_img)
-        style_img_features = model(style_img)
-
-        content_loss = 0
-        style_loss = 0
-        total_loss = 0
-
-        for gen_feature, orig_feature, style_feature in zip(generated_img_features, 
-                                                            original_img_features, 
-                                                            style_img_features):
-
-            content_loss += content_loss_fn(gen_feature, orig_feature)
-            style_loss += style_loss_fn(gen_feature, style_feature)
-
-        total_loss += content_weight * content_loss + style_weight * style_loss
-
-        optimizer.zero_grad()
-        total_loss.backward()
-        optimizer.step()
-
-        if epoch % 200 == 0:
-            results['content_loss'].append(content_loss)
-            results['style_loss'].append(style_loss)
-            results['total_loss'].append(total_loss)
-
-            print('------------------ EPOCH {} -------------------'.format(epoch))
-            print('Content Loss: {:.6f}, Style Loss: {:.6f}'.format(content_loss, style_loss))
-            print('Total Loss: {:.6f}'.format(total_loss))
-            print()
-
-            save_generated_image(epoch+1, generated_img)
-
-    return results
-
-def plot_loss_curves(results: dict[str, list[float]]) -> None:
-    """
-    Plots the style loss and total loss curves over epochs based on the provided results dictionary.
-
-    Args:
-        results (dict[str, list[float]]): A dictionary containing the loss values.
-            Expected keys are 'style_loss' and 'total_loss', with corresponding lists of loss values for each epoch.
-
-    Returns:
-        None
-
-    Example:
-        results = {
-            'style_loss': [0.8, 0.6, 0.4, 0.2],
-            'total_loss': [1.0, 0.7, 0.5, 0.3]
-        }
-        plot_loss_curves(results)
-    """
-    style_loss = results['style_loss']
-    total_loss = results['total_loss']
-
-    epochs = range(len(style_loss))
-
-    plt.figure(figsize=(12, 5))
-
-    plt.subplot(1, 2, 1)
-    plt.plot(epochs, style_loss, label='Style Loss')
-    plt.plot(epochs, total_loss, label='Total Loss')
-    plt.title('Loss: Style vs Total')
-    plt.xlabel('Epochs')
-    plt.ylabel('Loss')
-    plt.legend()
-    plt.grid(True)
-
-
-def plot_loss_curve_grid(results: dict[str, list[float]]) -> None:
-    """
-    Plots the content loss, style loss, and total loss curves over epochs using a grid layout.
-
-    Args:
-        results (dict[str, list[float]]): A dictionary containing the loss values.
-            Expected keys are 'content_loss', 'style_loss', and 'total_loss', with corresponding lists of loss values for each epoch.
-
-    Returns:
-        None
-
-    Example:
-        results = {
-            'content_loss': [1.0, 0.8, 0.6, 0.4],
-            'style_loss': [0.9, 0.7, 0.5, 0.3],
-            'total_loss': [1.9, 1.5, 1.1, 0.7]
-        }
-        plot_loss_curve_grid(results)
-    """
-    content_loss = results['content_loss']
-    style_loss = results['style_loss']
-    total_loss = results['total_loss']
-
-    epochs = range(len(content_loss))
-
-    fig = plt.figure(figsize=(12, 8))
-    gs = GridSpec(2, 2, figure=fig)
-
-    ax1 = fig.add_subplot(gs[0, 0])
-    ax1.plot(epochs, content_loss, marker='o', color='b', label='Content Loss')
-    ax1.set_title('Content Loss')
-    ax1.set_xlabel('Epochs')
-    ax1.set_ylabel('Loss')
-    ax1.legend()
-    ax1.grid(True)
-
-    ax2 = fig.add_subplot(gs[0, 1])
-    ax2.plot(epochs, style_loss, marker='s', color='r', label='Style Loss')
-    ax2.set_title('Style Loss')
-    ax2.set_xlabel('Epochs')
-    ax2.set_ylabel('Loss')
-    ax2.legend()
-    ax2.grid(True)
-
-    ax3 = fig.add_subplot(gs[1, 0])
-    ax3.plot(epochs, total_loss, marker='o', color='g', label='Total Loss')
-    ax3.set_title('Total Loss')
-    ax3.set_xlabel('Epochs')
-    ax3.set_ylabel('Loss')
-    ax3.legend()
-    ax3.grid(True)
-
-    plt.tight_layout()
-    plt.show()
-
 
 def images_to_video(image_folder : str, 
                     video_path : str,
@@ -309,6 +175,7 @@ def images_to_video(image_folder : str,
     cv2.destroyAllWindows()
 
     print(f"Video saved at {video_path}")
+
 
 def plot_images_grid(original_img_path: str,
                      generated_img_path: str,
