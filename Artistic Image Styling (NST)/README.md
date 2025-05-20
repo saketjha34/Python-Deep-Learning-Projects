@@ -1,5 +1,8 @@
 # Artistic Image Styling (Neural Style Transfer)
 
+![Artistic Image Styling](https://github.com/saketjha34/Python-Deep-Learning-Projects/blob/main/Artistic%20Image%20Styling%20(NST)/demo.gif)
+
+
 This repository contains a project that implements Neural Style Transfer (NST) using deep learning techniques. 
 Neural Style Transfer is a technique that takes two images a content image and a style image and blends them together so that the output image looks like the content image but "painted" in the style of the style image.
 
@@ -62,7 +65,7 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 ├── main.py                       ## Implementation of Main Logic 
 ├── ArtisticImageStyling.ipynb    ## Notebook Version 
 ├── ModelResults.ipynb            ## Results Obtained 
-├── config.yaml                   ## Results Obtained 
+├── config.yaml                   ## config.yaml 
 ├── demo.gif                      ## gif file of output 
 ├── README.md
 └── requirements.txt
