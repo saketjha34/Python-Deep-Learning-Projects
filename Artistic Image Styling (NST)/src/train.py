@@ -1,77 +1,7 @@
 import torch
-from PIL import Image
-import torch.nn as nn
-import torch.optim as optim
-from tqdm.notebook import tqdm
-import torchvision.models as models
-from torchvision.utils import save_image
-import torchvision.transforms as transforms
-from torchvision.transforms import v2, transforms
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-from utils.config import IMG_CHANNEL,IMG_SIZE,EPOCHS,LEARNING_RATE,WEIGHTS,ORIGINAL_IMG_PATH,STYLE_IMG_PATH
-
-IMG_CHANNEL = IMG_CHANNEL
-IMG_SIZE = IMG_SIZE
-EPOCHS = EPOCHS
-LEARNING_RATE = LEARNING_RATE
-WEIGHTS = WEIGHTS
-ORIGINAL_IMG_PATH = ORIGINAL_IMG_PATH
-STYLE_IMG_PATH = STYLE_IMG_PATH
-
-
-image_transforms = transforms.Compose([
-        v2.Resize(size = (IMG_SIZE,IMG_SIZE)),
-        v2.CenterCrop((IMG_SIZE,IMG_SIZE)),
-        transforms.ToTensor(),
-    ])
-
-
-def load_image(img_path: str, 
-               image_transforms: transforms.Compose) -> torch.Tensor:
-    image = Image.open(img_path)
-    return image_transforms(image).unsqueeze(0).to(device)
-
-class ImageStyler(nn.Module):
-    def __init__(self):
-        super(ImageStyler ,self,).__init__()
-        self.chosen_features = ["0", "5", "10", "19", "28"]
-        self.model = models.vgg19(pretrained = True ).features[:29]
-
-    def forward(self,x):
-        features = []
-        for layer_num, layer in enumerate(self.model):
-            x = layer(x)
-
-            if str(layer_num) in self.chosen_features:
-                features.append(x)
-
-        return features
-
-
-class ContentLoss(nn.Module):
-    def __init__(self,):
-        super(ContentLoss, self).__init__()
-    
-    def forward(self, input , target):
-        loss = nn.functional.mse_loss(input, target)
-        return loss
-
-
-class StyleLoss(nn.Module):
-    def __init__(self,):
-        super(StyleLoss, self).__init__()
-
-    def forward(self, input ,target_feature):
-        G = self._gram_matrix(input)
-        A = self._gram_matrix(target_feature).detach()
-        loss = nn.functional.mse_loss(G, A)
-        return loss
-    
-    def _gram_matrix(self,input):
-        batch_size, num_feature_maps, height, width = input.size()
-        features = input.view(batch_size * num_feature_maps, height * width)
-        G = torch.mm(features, features.t())
-        return G
+from tqdm import tqdm
+from utils.config import StyleTransferConfig
+StyleTransferConfig = StyleTransferConfig()
 
 def train_model(model : torch.nn.Module,
                 generated_img : torch.Tensor,
@@ -80,11 +10,37 @@ def train_model(model : torch.nn.Module,
                 optimizer : torch.optim.Optimizer,
                 content_loss_fn : torch.nn.Module,
                 style_loss_fn : torch.nn.Module,
-                content_weight : float,
-                style_weight : float,
+                weights : tuple[float , float],
+                save_image: callable,
                 epochs : int) -> dict[str, list[float]]:
+    """
+    Trains a neural network model for style transfer, optimizing the generated image to match the style of a given style image while preserving the content of an original image.
+
+    Parameters:
+    model (torch.nn.Module): The neural network model used to extract features from images.
+    generated_img (torch.Tensor): The image being generated and optimized.
+    original_img (torch.Tensor): The original image whose content is to be preserved.
+    style_img (torch.Tensor): The style image whose style is to be applied to the generated image.
+    optimizer (torch.optim.Optimizer): The optimizer used to update the generated image.
+    content_loss_fn (callable): The function used to compute the content loss between the generated image and the original image.
+    weights (tuple[float, float]): A tuple containing two weights: the content weight and the style weight.
+    style_loss_fn (callable): The function used to compute the style loss between the generated image and the style image.
+    epochs (int): The number of epochs for training.
+
+    Returns:
+    dict[str, list[float]]: A dictionary containing lists of content loss, style loss, and total loss recorded at each epoch.
+    """
     
-    for epoch in tqdm(range(epochs)):
+    results = {
+        'content_loss': [],
+        'style_loss': [],
+        'total_loss': [],
+    }
+
+    for epoch in tqdm(range(epochs+1)):
+
+        content_weight = weights[0]
+        style_weight = weights[1]
 
         generated_img_features = model(generated_img)
         original_img_features = model(original_img)
@@ -94,45 +50,30 @@ def train_model(model : torch.nn.Module,
         style_loss = 0
         total_loss = 0
 
-        for gen_feature, orig_feature, style_feature in zip(generated_img_features,
-                                                            original_img_features,
+        for gen_feature, orig_feature, style_feature in zip(generated_img_features, 
+                                                            original_img_features, 
                                                             style_img_features):
 
-            content_loss += content_loss_fn(gen_feature , orig_feature)
-            style_loss += style_loss_fn(gen_feature , style_feature)
+            content_loss += content_loss_fn(gen_feature, orig_feature)
+            style_loss += style_loss_fn(gen_feature, style_feature)
 
         total_loss += content_weight * content_loss + style_weight * style_loss
-
-
+        
+        results['content_loss'].append(content_loss.detach().cpu().numpy())
+        results['style_loss'].append(style_loss.detach().cpu().numpy())
+        results['total_loss'].append(total_loss.detach().cpu().numpy())
+        
         optimizer.zero_grad()
         total_loss.backward()
         optimizer.step()
 
-        if epoch % 200 == 0:
-
+        if epoch % 100 == 0:
+            
             print('------------------ EPOCH {} -------------------'.format(epoch))
             print('Content Loss: {:.6f}, Style Loss: {:.6f}'.format(content_loss, style_loss))
             print('Total Loss: {:.6f}'.format(total_loss))
             print()
-            save_image(generated_img , 'generated.png')
 
+            save_image(generated_img , f'output/generated_{StyleTransferConfig.IMG_NAME}.png')
 
-model = ImageStyler().to(device).eval()
-original_img = load_image(img_path=ORIGINAL_IMG_PATH , image_transforms=image_transforms)
-style_img = load_image(img_path=STYLE_IMG_PATH , image_transforms=image_transforms)
-generated_img = original_img.clone().requires_grad_(True)
-optimizer = optim.Adam([generated_img], lr=LEARNING_RATE)
-content_loss_fn = ContentLoss()
-style_loss_fn = StyleLoss()
-
-
-train_model(model = model ,
-            generated_img = generated_img ,
-            original_img = original_img ,
-            style_img = style_img,
-            optimizer = optimizer ,
-            content_loss_fn = content_loss_fn ,
-            style_loss_fn = style_loss_fn ,
-            content_weight = WEIGHTS[0],
-            style_weight = WEIGHTS[1],
-            epochs = EPOCHS)
+    return results
