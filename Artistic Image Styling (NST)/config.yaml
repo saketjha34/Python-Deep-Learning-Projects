@@ -1,0 +1,8 @@
+EPOCHS: 1000
+LEARNING_RATE: 0.001
+WEIGHTS: [2, 0.01]
+IMG_SIZE: 720
+IMG_CHANNEL: 3
+IMG_NAME : "lady (14)"
+ORIGINAL_IMG_PATH: "images/lady (14).jpg"
+STYLE_IMG_PATH: "styles/style (5).jpg"
