@@ -46,20 +46,24 @@ The VGG19 model pre-trained on the ImageNet dataset is employed to extract featu
 │   ├── Generated Images during training
 ├── output
 │   ├── generated images on test_images.jpg
-├── results
-│   ├── images of styles implemnted on the dataset
 ├── styles
 │   ├── styling_images.jpg
+├── results
+│   ├── output1.png               ## Image Grid (Input_Image, Style_Image, Generated_Image)
 ├── src
-│   ├── train.py
+│   ├── __init__.py               ## Module Initialization
+│   ├── model.py                  ## Pytorch Code for Model Implementation
+│   ├── plot_loss_curve.py        ## loss_curve ploting Implementation
+│   ├── train.py                  ## Train Model
 ├── utils
-│   ├── utils.py
-│   ├── config.py
-│   ├── model.py
-├── ArtisticImageStyling.ipynb
-├── ModelResults.ipynb
-├── NST PAPER.pdf
-├── output_video.mp4
+│   ├── __init__.py               ## Module Initialization
+│   ├── utils.py                  ## Utility Functions
+│   ├── config.py                 ## Model Config
+├── main.py                       ## Implementation of Main Logic 
+├── ArtisticImageStyling.ipynb    ## Notebook Version 
+├── ModelResults.ipynb            ## Results Obtained 
+├── config.yaml                   ## config.yaml 
+├── demo.gif                      ## gif file of output 
 ├── README.md
 └── requirements.txt
 ```
@@ -98,18 +102,18 @@ cd Python-Deep-Learning-Projects/Artistic%20Image%20Styling%20(NST)
 
 ## Usage
 
-To train the model on your own custom image and perform neural style transfer, follow these steps:
+To Style your own Custom Image and perform Neural Style Transfer, follow these steps:
 
 1. Clone the repository:
     ```bash
     git clone https://github.com/saketjha34/Python-Deep-Learning-Projects.git
-    cd Python-Deep-Learning-Projects/Artistic%20Image%20Styling%20(NST)
+    cd Python-Deep-Learning-Projects/Artistic Image Styling(NST)
     ```
 
 2. Create and activate a virtual environment:
     ```bash
-    python -m venv imagestyling
-    source imagestyling/bin/activate
+    python -m venv venv
+    venv/Scripts/activate 
     ```
 
 3. Install the required packages:
@@ -117,31 +121,27 @@ To train the model on your own custom image and perform neural style transfer, f
     pip install -r requirements.txt
     ```
 
-4. Configure `config.py` located in the `utils/` directory:
-    ```bash
-    cd utils/
-    ```
-    Place your content image into the `images/` directory and select the style image to perform NST. Then replace the content image path with yours and do the same for the style image in the `config.py` file:
-    ```python
-    EPOCHS = 6000
-    LEARNING_RATE = 1e-3
-    WEIGHTS = (2, 0.01)
-    IMG_SIZE = 720
-    IMG_CHANNEL = 3
-    ORIGINAL_IMG_PATH = 'path/to/your/input/image.jpg'
-    STYLE_IMG_PATH = 'path/to/your/style/image.jpg'
+4. Configure `config.yaml` located in the root Directory:
+
+    Place your content image into the `images/` directory and select the style image to perform NST. Then replace the content image path with yours and do the same for the style image in the `config.yaml` file:
+    ```yaml
+    EPOCHS: 1000
+    LEARNING_RATE: 0.001
+    WEIGHTS: [2, 0.01]
+    IMG_SIZE: 720
+    IMG_CHANNEL: 3
+    IMG_NAME : "your_image_name"
+    ORIGINAL_IMG_PATH: "images/your_image_name.png"
+    STYLE_IMG_PATH: "styles/style (5).jpg"
     ```
 
-5. Train the model from the `src/` directory:
-    ```bash
-    cd ../src/
-    ```
+5. Train the model from the `root` directory:
     Once the settings and image paths have been configured, run:
     ```bash
-    python train.py
+    python main.py
     ``` 
 
-For more detailed instructions, refer to the `utils/utils.py` , `utils/config.py` and `utils/model.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
+For more detailed instructions, refer to the `utils/utils.py` , `utils/config.py` and `src/model.py` directory, which contains all the necessary scripts for data preprocessing, training, and evaluation.
 
 
 ## Model Architecture
@@ -196,35 +196,59 @@ By following these steps, the NST process effectively blends content and style, 
 ## Deployment
 
 ```python
-from utils.model import ImageStyler , ContentLoss , StyleLoss
-from utils.utils import device
-from utils.utils import image_transforms , train_model , load_image
+import torch
 import torch.optim as optim
-from utils.config import EPOCHS,LEARNING_RATE,WEIGHTS,ORIGINAL_IMG_PATH,STYLE_IMG_PATH
+from utils.utils import load_image, plot_images_grid, image_to_tensor
+from torchvision.utils import save_image
+import torchvision.transforms as transforms
+from utils.config import StyleTransferConfig
+from torchvision.transforms import v2, transforms
+from src.model import ImageStyler, ContentLoss, StyleLoss
+from src.train import train_model
+from src.plot_loss_curve import plot_loss_curve_grid, plot_loss_curves
+
+StyleTransferConfig = StyleTransferConfig()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(device)
 
 
-model = ImageStyler().to(device).eval()
-content_loss_fn = ContentLoss()
-style_loss_fn = StyleLoss()
+IMG_CHANNEL = StyleTransferConfig.IMG_CHANNEL
+IMG_NAME = StyleTransferConfig.IMG_NAME
+IMG_SIZE = StyleTransferConfig.IMG_SIZE
+EPOCHS = StyleTransferConfig.EPOCHS
+LEARNING_RATE = StyleTransferConfig.LEARNING_RATE
+WEIGHTS = StyleTransferConfig.WEIGHTS
+ORIGINAL_IMG_PATH = StyleTransferConfig.ORIGINAL_IMG_PATH
+STYLE_IMG_PATH = StyleTransferConfig.STYLE_IMG_PATH
 
-model = ImageStyler().to(device).eval()
-original_img = load_image(img_path=ORIGINAL_IMG_PATH , image_transforms=image_transforms)
-style_img = load_image(img_path=STYLE_IMG_PATH , image_transforms=image_transforms)
-generated_img = original_img.clone().requires_grad_(True)
-optimizer = optim.Adam([generated_img], lr=LEARNING_RATE)
-content_loss_fn = ContentLoss()
-style_loss_fn = StyleLoss()
 
-train_model(model = model ,
-            generated_img = generated_img ,
-            original_img = original_img ,
-            style_img = style_img,
-            optimizer = optimizer ,
-            content_loss_fn = content_loss_fn ,
-            style_loss_fn = style_loss_fn ,
-            content_weight = WEIGHTS[0],
-            style_weight = WEIGHTS[1],
-            epochs = EPOCHS)
+image_transforms = transforms.Compose([
+        v2.Resize(size = (IMG_SIZE,IMG_SIZE)),
+        v2.CenterCrop((IMG_SIZE,IMG_SIZE)),
+        transforms.ToTensor(),
+    ])
+
+
+if __name__ == "__main__":
+    
+    model = ImageStyler().to(device).eval()
+    original_img = load_image(img_path=ORIGINAL_IMG_PATH , image_transforms=image_transforms)
+    style_img = load_image(img_path=STYLE_IMG_PATH , image_transforms=image_transforms)
+    generated_img = original_img.clone().requires_grad_(True)
+    optimizer = optim.Adam([generated_img], lr=LEARNING_RATE)
+    content_loss_fn = ContentLoss()
+    style_loss_fn = StyleLoss()
+
+    results = train_model(model = model,
+                          generated_img = generated_img,
+                          original_img = original_img,
+                          style_img = style_img,
+                          optimizer = optimizer,
+                          content_loss_fn = content_loss_fn,
+                          style_loss_fn = style_loss_fn,
+                          weights = WEIGHTS,
+                          save_image= save_image,
+                          epochs = EPOCHS)
 
 ```
 
